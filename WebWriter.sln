@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebWriter.Server", "WebWriter.Server\WebWriter.Server.csproj", "{039A605C-BA8E-4339-9E07-577779330F86}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "webwriter.client", "webwriter.client\webwriter.client.esproj", "{DC889A13-7853-4644-8D3D-D2B8997878EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{039A605C-BA8E-4339-9E07-577779330F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039A605C-BA8E-4339-9E07-577779330F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039A605C-BA8E-4339-9E07-577779330F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039A605C-BA8E-4339-9E07-577779330F86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC889A13-7853-4644-8D3D-D2B8997878EA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7DDDD5E-BED8-442D-8166-587498422347}
+	EndGlobalSection
+EndGlobal
