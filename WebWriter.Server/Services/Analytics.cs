@@ -3,20 +3,68 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace WebWriter.Server.Services
 {
-    public class ChapterTitleDate
+    
+    public class RoyalRoadAPI
     {
-        public string Title { get; set; }
-        public DateTime Date { get; set; }
+        private readonly HttpClient _httpClient;
 
-        public ChapterTitleDate(string title, DateTime date)
+        public RoyalRoadAPI()
         {
-            Title = title;
-            Date = date;
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:3000") // adjust if hosted elsewhere
+            };
+        }
+
+        public async Task<FictionResponse> GetFictionAsync(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<FictionResponse>(
+                    $"/getFiction?fictionUrl={Uri.EscapeDataString(url)}");
+
+                if (response == null)
+                    throw new Exception("No response data");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to fetch fiction: {ex.Message}");
+            }
+        }
+
+        public async Task<Dictionary<string, List<string>>> GetConsistencyAnalyticsAsync(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<Dictionary<string, List<string>>>(
+                    $"/getConsistencyAnalytics?fictionUrl={Uri.EscapeDataString(url)}");
+
+                if (response == null)
+                    throw new Exception("No analytics data returned");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to fetch analytics: {ex.Message}");
+            }
         }
     }
+
+    public class FictionResponse
+    {
+        public Fiction Data { get; set; }
+    }
+    
 
     public class Analytics
     {
@@ -31,9 +79,9 @@ namespace WebWriter.Server.Services
 
         private async Task<Fiction> GetFiction(string url)
         {
-            var id = GetId(url);
-            if (id == null) throw new Exception("Invalid URL");
-            var response = await _api.Fiction.GetFictionAsync(id.Value);
+            //var id = GetId(url);
+            //if (id == null) throw new Exception("Invalid URL");
+            var response = await _api.GetFictionAsync(url);
             return response.Data;
         }
 
