@@ -1,0 +1,135 @@
+/* Provide sufficient contrast against white background */
+
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+#auth-container {
+    background-color: white;
+    padding: 60px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0px 1px 3px grey;
+    width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+    margin-bottom: 12vh;
+}
+
+#auth-btn {
+    width: 100%;
+    background-color: #0066ffff;
+}
+
+#home-link {
+    font-size: large;
+    display: block;
+}
+
+#popup-container {
+    width: 430px;
+    height: 200px;
+    background-color: #42414cff;
+}
+
+#popup-icon {
+    width: auto;
+}
+
+#popup-title {
+    display: inline;
+    font-size: x-large;
+    vertical-align: middle;
+    margin-left: 5px;
+    color: white;
+}
+
+#popup-header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#popup-title-container {
+    display: table-cell;
+}
+
+#popup-home {
+    display: flex;
+}
+
+#popup-btn-group {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0px 20px 0px 20px;
+}
+
+#mentions-header {
+    height: 6vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+#sort-btn {
+    height: 100%;
+    font-weight: 600;
+    width: 10rem;
+    font-size: x-large;
+}
+#website-list-container {
+    width: auto;
+    height: auto;
+}
+
+#website-list {
+    height: 100%;
+}
+
+#website-btn {
+    text-align: center;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+#genre-container {
+    border: 2px solid gray;
+    margin-bottom: 1rem;
+}
+
+.custom-tooltip {
+    width: 200px;
+    margin: 0;
+    line-height: 24px;
+    border: 1px solid #f5f5f5;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+
+}
+
+.label {
+    margin: 0;
+    color: #666;
+    font-weight: 700;
+  }
+
+.desc {
+margin: 0;
+color: #999;
+}
+
+.intro {
+border-top: 1px solid #f5f5f5;
+margin: 0;
+
+}
