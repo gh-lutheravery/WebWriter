@@ -12,12 +12,23 @@ export function AnalyticsView() {
                 <h1 style={{ margin: "auto", width: "fit-content" }}>{title} Analytics</h1>
                 <h3 style={{ margin: "auto", width: "fit-content" }}>Free Writerapp</h3>
             </div>
+
             <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                 <TabList>
                     <Tab>Previous Works</Tab>
                     <Tab>Genre</Tab>
                     <Tab>Consistency</Tab>
                 </TabList>
+
+                <TabPanel>
+                    <PrevWorks urlInput={this.props.match.params.url} />
+                </TabPanel>
+                <TabPanel>
+                    <Genre urlInput={this.props.match.params.url} />
+                </TabPanel>
+                <TabPanel>
+                    <Consistency urlInput={this.props.match.params.url} />
+                </TabPanel>
             </Tabs>
         </div>
     );
