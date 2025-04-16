@@ -1,8 +1,10 @@
 import React from 'react';
+import { WriterappNavbar } from './components/WriterappNavbar.js';
+import { PrevWorks } from './components/PrevWorks.js';
+import { Genre } from './components/Genre.js';
+import { Consistency } from './components/Consistency.js';
 
-import { WriterappNavbar } from './WriterappNavbar.js';
-
-export function AnalyticsView() {
+export function Analytics() {
     const [tabIndex, setTabIndex] = useState(0);
 
     return (
