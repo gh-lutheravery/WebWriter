@@ -7,6 +7,9 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace WebWriter.Server.Services
 {
@@ -19,15 +22,15 @@ namespace WebWriter.Server.Services
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:3000") // adjust if hosted elsewhere
+                BaseAddress = new Uri("http://localhost:3000")
             };
         }
 
-        public async Task<FictionResponse> GetFictionAsync(string url)
+        public async Task<String> GetFictionAsync(string url)
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<FictionResponse>(
+                var response = await _httpClient.GetStringAsync(
                     $"/getFiction?fictionUrl={Uri.EscapeDataString(url)}");
 
                 if (response == null)
@@ -60,10 +63,10 @@ namespace WebWriter.Server.Services
         }
     }
 
-    public class FictionResponse
-    {
-        public Fiction Data { get; set; }
-    }
+    //public class FictionResponse
+    //{
+    //    public Fiction Data { get; set; }
+    //}
     
 
     public class Analytics
@@ -77,26 +80,28 @@ namespace WebWriter.Server.Services
             return match.Success ? int.Parse(match.Groups[1].Value) : (int?)null;
         }
 
-        private async Task<Fiction> GetFiction(string url)
+        private async Task<String> GetFiction(string url)
         {
             //var id = GetId(url);
             //if (id == null) throw new Exception("Invalid URL");
             var response = await _api.GetFictionAsync(url);
-            return response.Data;
+            return response;
         }
 
         public async Task<Fiction> GetFictionObj(string url)
         {
-            return await GetFiction(url);
+            string fictStr =  await GetFiction(url);
+            var result = JsonConvert.DeserializeObject<Fiction>(fictStr);
+            return result;
         }
 
         public async Task<Dictionary<string, List<string>>> GetConsistencyAnalytics(string url)
         {
-            var fiction = await GetFiction(url);
+            var fiction = await GetFictionObj(url);
             var chapterArray = fiction.Chapters;
 
             var chapterDateArray = chapterArray
-                .Select(ch => new ChapterTitleDate(ch.Title, ch.Release))
+                .Select(ch => new ChapterTitleDate(ch.Title, new DateTime(ch.Release)))
                 .ToList();
 
             return TitleDateToMap(chapterDateArray);
