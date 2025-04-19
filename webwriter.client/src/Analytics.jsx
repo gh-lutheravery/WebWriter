@@ -1,8 +1,8 @@
 import React from 'react';
-import { WriterappNavbar } from './components/WriterappNavbar.js';
-import { PrevWorks } from './components/PrevWorks.js';
-import { Genre } from './components/Genre.js';
-import { Consistency } from './components/Consistency.js';
+import { WriterappNavbar } from './components/WriterappNavbar.jsx';
+import { PrevWorks } from './components/PrevWorks.jsx';
+import { Genre } from './components/Genre.jsx';
+import { Consistency } from './components/Consistency.jsx';
 
 export function Analytics() {
     const [tabIndex, setTabIndex] = useState(0);

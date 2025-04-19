@@ -12,7 +12,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        fetch("/api/home")
+        fetch("home", { signal: AbortSignal.timeout(5000) })
             .then((res) => setViewModel(res.data))
             .catch((err) => console.error("Failed to fetch home data", err));
     }, []);
