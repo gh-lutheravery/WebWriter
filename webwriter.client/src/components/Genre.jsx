@@ -1,27 +1,43 @@
-import React from 'react';
-import {ListGroup, ListGroupItem, Badge} from 'reactstrap'
+import React, { useState, useEffect } from 'react';
+import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
 
-export function Genre(tabData) {
-    const genreArray = tabData.tabData;
-    console.log(genreArray);
-    // Updated renderGenres: remove extraneous curly braces and return the result
+export function Genre(urlInput) {
+    const url = urlInput.urlInput;
+    const [genreArray, setGenreArray] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    console.log("url: " + url)
+    useEffect(() => {
+        if (!url) return;
+
+        const fetchGenres = async () => {
+            try {
+                console.log("dsadasd")
+                const response = await fetch(`Analytics/getGenres?fictionUrl=${encodeURIComponent(url)}`);
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || "Failed to fetch genres.");
+                }
+                const data = await response.json();
+                setGenreArray(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGenres();
+    }, [url]);
+
     const renderGenres = (genres) => {
         return genres.map(genre => {
-            if (genre.IsMatch === true) {
-                return (
-                    <ListGroupItem className="justify-content-between" active key={genre.Name}>
-                        {genre.Name}{' '}
-                        <Badge>
-                            {genre.PopRating}
-                        </Badge>
-                    </ListGroupItem>
-                );
-            }
+            const { Name, PopRating, IsMatch } = genre;
             return (
-                <ListGroupItem className="justify-content-between" key={genre.Name}>
-                    {genre.Name}{' '}
+                <ListGroupItem className="justify-content-between" active={IsMatch} key={Name}>
+                    {Name}{' '}
                     <Badge>
-                        {genre.PopRating}
+                        {PopRating}
                     </Badge>
                 </ListGroupItem>
             );
@@ -29,16 +45,18 @@ export function Genre(tabData) {
     };
 
     return (
-        <div>
-            <div id="genre-container">  
-                <div style={{ marginBottom: "1rem"}}>
-                    <h2>How popular are the genres it is in?</h2>
-                </div>
-                
-                <ListGroup> 
+        <div id="genre-container">
+            <div style={{ marginBottom: "1rem" }}>
+                <h2>How popular are the genres it is in?</h2>
+            </div>
+
+            {loading && <p>Loading genres...</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {!loading && !error && (
+                <ListGroup>
                     {renderGenres(genreArray)}
                 </ListGroup>
-            </div>
+            )}
         </div>
     );
 }

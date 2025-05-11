@@ -38,6 +38,44 @@ namespace WebWriter.Server.Controllers
             }
         }
 
+        [HttpGet("getPrevWorks")]
+        public async Task<IActionResult> GetPrevWorks([FromQuery] string fictionUrl)
+        {
+            if (string.IsNullOrEmpty(fictionUrl))
+            {
+                return BadRequest(new { error = "Missing or invalid query parameter: fictionUrl" });
+            }
+
+            try
+            {
+                var result = await _analytics.GetPrevWorks(fictionUrl);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("getGenres")]
+        public async Task<IActionResult> GetGenres([FromQuery] string fictionUrl)
+        {
+            if (string.IsNullOrEmpty(fictionUrl))
+            {
+                return BadRequest(new { error = "Missing or invalid query parameter: fictionUrl" });
+            }
+
+            try
+            {
+                var result = await _analytics.GetGenres(fictionUrl);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
         [HttpGet("getFiction")]
         public async Task<IActionResult> GetFiction([FromQuery] string fictionUrl)
         {

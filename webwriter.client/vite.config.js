@@ -46,10 +46,10 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/home': {
-                target: 'https://localhost:7029/home',
+            '^/Analytics': {
+                target: 'https://localhost:7029/',
                 secure: false
-            }
+            },
         },
         port: 5173,
         https: {

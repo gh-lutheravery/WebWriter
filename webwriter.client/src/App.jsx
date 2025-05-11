@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-//import { Layout } from './components/Layout';
+import { Routes, Route } from 'react-router-dom';
 import Home from './Home.jsx';
-//import { FetchData } from './components/FetchData';
-//import { Payment } from './components/Payment';
-
-import './custom.css'
 import { Analytics } from './Analytics.jsx';
+import { Layout } from './Layout.jsx';
+
+import './custom.css';
 
 export default class App extends Component {
     static displayName = App.name;
 
     render() {
         return (
-            /*<Layout>*/
             <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/analyze/:url' element={<Analytics />} />
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path="analyze" element={<Analytics />} />
+                </Route>
             </Routes>
-            /*</Layout>*/
         );
     }
 }

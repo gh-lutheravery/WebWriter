@@ -8,20 +8,19 @@ export function Consistency(urlInput) {
     const [consistencyData, setConsistencyData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const url = urlInput.urlInput;
 
     useEffect(() => {
         const fetchConsistencyData = async () => {
             try {
-
-                const urlParams = new URLSearchParams(urlInput);
-                const fictionUrl = urlParams.get('fictionUrl');
+                const fictionUrl = url;
 
                 if (!fictionUrl) {
                     throw new Error('Fiction URL is required');
                 }
 
                 // Fetch data from the API
-                const response = await fetch(`/analytics/getConsistencyAnalytics?fictionUrl=${encodeURIComponent(fictionUrl)}`);
+                const response = await fetch(`Analytics/getConsistencyAnalytics?fictionUrl=${encodeURIComponent(fictionUrl)}`);
 
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -36,6 +35,7 @@ export function Consistency(urlInput) {
                     commentLength: consistencyMap[key]
                 }));
 
+                console.log(chartData)
                 setConsistencyData(chartData);
                 setLoading(false);
             } catch (err) {
@@ -81,12 +81,8 @@ export function Consistency(urlInput) {
 
             {consistencyData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={450}>
-                    <AreaChart
-                        width={1030}
-                        height={450}
-                        data={consistencyData}
-                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                    >
+                    <AreaChart width={1030} height={450} data={consistencyData}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                         <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
@@ -100,15 +96,9 @@ export function Consistency(urlInput) {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip content={<CustomTooltip />} />
+                        <Tooltip />
                         <Legend />
-                        <Area
-                            type="monotone"
-                            dataKey="commentLength"
-                            stroke="#8884d8"
-                            fillOpacity={1}
-                            fill="url(#colorUv)"
-                        />
+                        <Area type="monotone" dataKey="commentLength" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
                     </AreaChart>
                 </ResponsiveContainer>
             ) : (

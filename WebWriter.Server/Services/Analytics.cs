@@ -44,11 +44,47 @@ namespace WebWriter.Server.Services
             }
         }
 
-        public async Task<Dictionary<string, List<string>>> GetConsistencyAnalyticsAsync(string url)
+        public async Task<String> GetPrevWorksAsync(string url)
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<Dictionary<string, List<string>>>(
+                var response = await _httpClient.GetStringAsync(
+                    $"/getPrevWorksAnalytics?fictionUrl={Uri.EscapeDataString(url)}");
+
+                if (response == null)
+                    throw new Exception("No response data");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to fetch fiction: {ex.Message}");
+            }
+        }
+
+        public async Task<String> GetGenresAsync(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetStringAsync(
+                    $"/getGenreAnalytics?fictionUrl={Uri.EscapeDataString(url)}");
+
+                if (response == null)
+                    throw new Exception("No response data");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to fetch fiction: {ex.Message}");
+            }
+        }
+
+        public async Task<string> GetConsistencyAnalyticsAsync(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetStringAsync(
                     $"/getConsistencyAnalytics?fictionUrl={Uri.EscapeDataString(url)}");
 
                 if (response == null)
@@ -88,6 +124,18 @@ namespace WebWriter.Server.Services
             return response;
         }
 
+        public async Task<String> GetPrevWorks(string url)
+        {
+            var response = await _api.GetPrevWorksAsync(url);
+            return response;
+        }
+
+        public async Task<String> GetGenres(string url)
+        {
+            var response = await _api.GetGenresAsync(url);
+            return response;
+        }
+
         public async Task<Fiction> GetFictionObj(string url)
         {
             string fictStr =  await GetFiction(url);
@@ -97,33 +145,40 @@ namespace WebWriter.Server.Services
 
         public async Task<Dictionary<string, List<string>>> GetConsistencyAnalytics(string url)
         {
-            var fiction = await GetFictionObj(url);
-            var chapterArray = fiction.Chapters;
-
-            var chapterDateArray = chapterArray
-                .Select(ch => new ChapterTitleDate(ch.Title, new DateTime(ch.Release)))
-                .ToList();
-
-            return TitleDateToMap(chapterDateArray);
+            var response = await _api.GetConsistencyAnalyticsAsync(url);
+            var result = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(response);
+            return result;
         }
 
-        private Dictionary<string, List<string>> TitleDateToMap(List<ChapterTitleDate> chapterDateArray)
-        {
-            var dateDict = new Dictionary<string, List<string>>();
+        //public async Task<Dictionary<string, List<string>>> GetConsistencyAnalytics(string url)
+        //{
+        //    var fiction = await GetFictionObj(url);
+        //    var chapterArray = fiction.Chapters;
 
-            foreach (var cd in chapterDateArray)
-            {
-                var monthYear = cd.Date.ToString("MMMM yyyy", CultureInfo.InvariantCulture);
+        //    var chapterDateArray = chapterArray
+        //        .Select(ch => new ChapterTitleDate(ch.Title, new DateTime(ch.Release)))
+        //        .ToList();
 
-                if (!dateDict.ContainsKey(monthYear))
-                {
-                    dateDict[monthYear] = new List<string>();
-                }
+        //    return TitleDateToMap(chapterDateArray);
+        //}
 
-                dateDict[monthYear].Add(cd.Title);
-            }
+        //private Dictionary<string, List<string>> TitleDateToMap(List<ChapterTitleDate> chapterDateArray)
+        //{
+        //    var dateDict = new Dictionary<string, List<string>>();
 
-            return dateDict;
-        }
+        //    foreach (var cd in chapterDateArray)
+        //    {
+        //        var monthYear = cd.Date.ToString("MMMM yyyy", CultureInfo.InvariantCulture);
+
+        //        if (!dateDict.ContainsKey(monthYear))
+        //        {
+        //            dateDict[monthYear] = new List<string>();
+        //        }
+
+        //        dateDict[monthYear].Add(cd.Title);
+        //    }
+
+        //    return dateDict;
+        //}
     }
 }

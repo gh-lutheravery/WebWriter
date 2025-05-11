@@ -1,6 +1,6 @@
-body {
+/*body {
     background: #fafafa;
-}
+}*/
 
 h1, h2, h3, h4, h5, h6 {
     color: #444444;
@@ -279,14 +279,14 @@ a.article-title:hover {
     margin: 0px 9vw 0px 9vw;
 }
 
-.grid-body {
+/*.grid-body {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
     gap: 5px;
     padding: 10px;
     max-height: 50rem;
-}
+}*/
 
 .grid-post {
 }
